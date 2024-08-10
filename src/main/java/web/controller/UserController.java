@@ -10,18 +10,19 @@ import web.service.UserService;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+
     @Autowired
-    public UserService us;
+    public UserService userService;
 
     @GetMapping
     public String getAllUsers(Model model) {
-        model.addAttribute("users", us.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
     @GetMapping("/id")
-    public String getUserById(@RequestParam("id") long id, Model model){
-        model.addAttribute("user", us.getUserById(id));
+    public String getUserById(@RequestParam("id") long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
         return "show";
     }
 
@@ -33,29 +34,25 @@ public class UserController {
 
     @PostMapping
     public String addUser(@ModelAttribute("user") User user) {
-        us.addUser(user);
+        userService.addUser(user);
         return "redirect:/users";
     }
 
-    public void deleteUser(){
-
-    }
-
     @GetMapping("/id/edit")
-    public String edit(Model model, @RequestParam("id") long id) {
-        model.addAttribute("user", us.getUserById(id));
+    public String editUser(Model model, @RequestParam("id") long id) {
+        model.addAttribute("user", userService.getUserById(id));
         return "edit";
     }
 
     @PatchMapping("/id")
     public String updateUser(@ModelAttribute("user") User user, @RequestParam("id") long id) {
-        us.updateUser(id, user);
+        userService.updateUser(id, user);
         return "redirect:/users";
     }
 
     @DeleteMapping("/id")
     public String deleteUser(@RequestParam("id") Long id) {
-        us.deleteUser(id);
+        userService.deleteUser(id);
         return "redirect:/users";
     }
 
